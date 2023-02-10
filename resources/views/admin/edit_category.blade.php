@@ -29,7 +29,7 @@
             <!-- jquery validation -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add category</small></h3>
+                <h3 class="card-title">Edit category</small></h3>
               </div>
               @error('category_name')
                 <div class="alert alert-danger">{{ $message }}</div>
@@ -40,18 +40,18 @@
               @endif
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="{{url('/savecategory')}}" method="POST">
+              <form action="{{url('/updatecategory/'. $category->id)}}" method="POST">
                 @csrf
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Category name</label>
-                    <input type="text" name="category_name" class="form-control" id="exampleInputEmail1" placeholder="Enter category">
+                    <input type="text" value="{{old('category_name',$category->category_name)}}" name="category_name" class="form-control" id="exampleInputEmail1" placeholder="Enter category">
                   </div>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
                   <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-                  <input type="submit" class="btn btn-primary" value="Save" >
+                  <input type="submit" class="btn btn-primary" value="Update" >
                 </div>
               </form>
             </div>
@@ -74,10 +74,10 @@
 
 @section('scripts')
 <!-- jquery-validation -->
-<script src="back-end/plugins/jquery-validation/jquery.validate.min.js"></script>
-<script src="back-end/plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="{{asset('back-end/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+<script src="{{asset('back-end/plugins/jquery-validation/additional-methods.min.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="back-end/dist/js/adminlte.min.js"></script>
+<script src="{{asset('back-end/dist/js/adminlte.min.js')}}"></script>
 
 <script>
     $(function () {
