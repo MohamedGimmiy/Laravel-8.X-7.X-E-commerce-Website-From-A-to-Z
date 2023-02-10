@@ -50,7 +50,7 @@
                       </td>
                       <td>
                         <a href="{{url('/edit_category/'.$category->id)}}" class="btn btn-primary"><i class="nav-icon fas fa-edit"></i></a>
-                        <a href="#" id="delete" class="btn btn-danger" ><i class="nav-icon fas fa-trash"></i></a>
+                        <a href="{{url('/delete_category/'.$category->id)}}" id="delete" class="btn btn-danger" ><i class="nav-icon fas fa-trash"></i></a>
                       </td>
                     </tr>
                     @endforeach
