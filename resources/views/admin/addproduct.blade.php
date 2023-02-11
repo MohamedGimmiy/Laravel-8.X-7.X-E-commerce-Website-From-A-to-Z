@@ -30,9 +30,22 @@
               <div class="card-header">
                 <h3 class="card-title">Add product</h3>
               </div>
+              @if ($message = Session::get('success'))
+              <div class="alert alert-success">{{ $message }}</div>
+              @endif
+              @error('product_price')
+              <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            @error('product_name')
+            <div class="alert alert-danger">{{ $message }}</div>
+          @enderror
+          @error('product_category')
+          <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
               <!-- /.card-header -->
               <!-- form start -->
-              <form id="quickForm">
+              <form action="{{url('/saveproduct')}}" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Product name</label>
@@ -44,16 +57,17 @@
                   </div>
                   <div class="form-group">
                     <label>Product category</label>
-                    <select class="form-control select2" style="width: 100%;">
-                      <option selected="selected">Fruit</option>
-                      <option>Juice</option>
-                      <option>Vegetable</option>
+                    <select class="form-control select2" name="product_category" style="width: 100%;">
+                      <option disabled selected>Select product category</option>
+                      @foreach ($categories as $category)
+                      <option value="{{$category->category_name}}">{{$category->category_name}}</option>
+                      @endforeach
                     </select>
                   </div>
                   <label for="exampleInputFile">Product image</label>
                   <div class="input-group">
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="exampleInputFile">
+                      <input type="file" name="product_image" class="custom-file-input" id="exampleInputFile">
                       <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                     </div>
                     <div class="input-group-append">

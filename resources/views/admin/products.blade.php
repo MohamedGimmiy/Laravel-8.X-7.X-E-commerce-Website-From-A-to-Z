@@ -43,34 +43,24 @@
                   </tr>
                   </thead>
                   <tbody>
+                    @foreach ($products as $key => $product)
+                        
+                    @endforeach
                   <tr>
-                    <td>1</td>
+                    <td>{{$key+1}}</td>
                     <td>
-                        <img src="back-end/dist/img/user2-160x160.jpg" style="height : 50px; width : 50px" class="img-circle elevation-2" alt="User Image">
+                        <img src="{{asset('storage/product_images/'.$product->product_image)}}" style="height : 50px; width : 50px" class="img-circle elevation-2" alt="User Image">
                     </td>
-                    <td>Win 95+</td>
-                    <td> 4</td>
-                    <td>5</td>
+                    <td>{{$product->product_name}}</td>
+                    <td> {{$product->product_category}}</td>
+                    <td>${{$product->product_price}}</td>
                     <td>
                       <a href="#" class="btn btn-success">Unactivate</a>
                       <a href="#" class="btn btn-primary"><i class="nav-icon fas fa-edit"></i></a>
                       <a href="#" id="delete" class="btn btn-danger" ><i class="nav-icon fas fa-trash"></i></a>
                     </td>
                   </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>
-                      <img src="back-end/dist/img/user2-160x160.jpg" style="height : 50px; width : 50px" class="img-circle elevation-2" alt="User Image">
-                    </td>
-                    <td>Win 95+</td>
-                    <td>5</td>
-                    <td>5</td>
-                    <td>
-                      <a href="#" class="btn btn-warning">Activate</a>
-                      <a href="#" class="btn btn-primary"><i class="nav-icon fas fa-edit"></i></a>
-                      <a href="#" id="delete" class="btn btn-danger" ><i class="nav-icon fas fa-trash"></i></a>
-                    </td>
-                  </tr>
+
                   </tbody>
                   <tfoot>
                   <tr>
