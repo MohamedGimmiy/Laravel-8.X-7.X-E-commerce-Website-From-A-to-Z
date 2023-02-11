@@ -45,6 +45,9 @@ Route::post('/saveproduct', [ProductController::class, 'saveproduct']);
 Route::get('/products', [ProductController::class, 'products']);
 Route::post('/updateproduct/{id}', [ProductController::class, 'updateproduct']);
 Route::get('/editproduct/{id}', [ProductController::class, 'editproduct']);
+Route::get('/deleteproduct/{id}', [ProductController::class, 'deleteproduct']);
+Route::get('/activate_product/{id}', [ProductController::class, 'activate_product']);
+Route::get('/unactivate_product/{id}', [ProductController::class, 'unactivate_product']);
 
 
 

@@ -87,4 +87,33 @@ class ProductController extends Controller
         $product->update($validated);
         return redirect('/products')->with('success', 'Product updated successfully');
     }
+
+    public function deleteproduct($id)
+    {
+        $product = Product::findOrFail($id);
+        if ($product->product_image != 'noimage.png')
+            unlink('storage/product_images/' . $product->product_image);
+        $product->delete();
+        return redirect('/products')->with('success', 'Product deleted successfully');
+
+    }
+
+    public function activate_product($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->status = 1;
+        $product->update();
+
+        return redirect('/products')->with('success', 'Product has been activated successfully');
+
+    }
+    public function unactivate_product($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->status = 0;
+        $product->update();
+
+        return redirect('/products')->with('success', 'Product has been unactivated successfully');
+
+    }
 }
