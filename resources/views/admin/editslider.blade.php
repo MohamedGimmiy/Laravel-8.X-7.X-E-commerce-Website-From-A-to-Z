@@ -30,33 +30,33 @@
               <div class="card-header">
                 <h3 class="card-title">Add slider</h3>
               </div>
-
+              @if ($message = Session::get('success'))
+              <div class="alert alert-success">{{ $message }}</div>
+              @endif
               @error('description1')
               <div class="alert alert-danger">{{ $message }}</div>
             @enderror
             @error('description2')
             <div class="alert alert-danger">{{ $message }}</div>
           @enderror
-          @error('slider_image')
-          <div class="alert alert-danger">{{ $message }}</div>
-        @enderror
               <!-- /.card-header -->
               <!-- form start -->
-              <form  action="{{url('/saveslider')}}" method="POST" enctype="multipart/form-data">
+              <form  action="{{url('/updateslider/'.$slider->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Slider description 1</label>
-                    <input type="text" name="description1" class="form-control" id="exampleInputEmail1" placeholder="Enter slider description">
+                    <input value="{{old('description1',$slider->description1)}}" type="text" name="description1" class="form-control" id="exampleInputEmail1" placeholder="Enter slider description">
                   </div>
+                  <input type="hidden" name="old_image" value="{{$slider->slider_image}}">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Slider description 2</label>
-                    <input type="text" name="description2" class="form-control" id="exampleInputEmail1" placeholder="Enter slider description">
+                    <input type="text" value="{{old('description2',$slider->description2)}}" name="description2" class="form-control" id="exampleInputEmail1" placeholder="Enter slider description">
                   </div>
                   <label for="exampleInputFile">Slider image</label>
                   <div class="input-group">
                     <div class="custom-file">
-                      <input type="file" name="slider_image" class="custom-file-input" id="exampleInputFile">
+                      <input type="file" value="{{$slider->slider_image}}" name="slider_image" class="custom-file-input" id="exampleInputFile">
                       <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                     </div>
                     <div class="input-group-append">
@@ -67,7 +67,7 @@
                 <!-- /.card-body -->
                 <div class="card-footer">
                   <!-- <button type="submit" class="btn btn-warning">Submit</button> -->
-                  <input type="submit" class="btn btn-warning" value="Save" >
+                  <input type="submit" class="btn btn-warning" value="Update" >
                 </div>
               </form>
             </div>

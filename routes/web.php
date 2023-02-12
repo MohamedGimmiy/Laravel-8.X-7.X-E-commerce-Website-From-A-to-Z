@@ -53,6 +53,14 @@ Route::get('/unactivate_product/{id}', [ProductController::class, 'unactivate_pr
 
 Route::get('/addslider', [SliderController::class, 'addslider']);
 Route::get('/sliders', [SliderController::class, 'sliders']);
+Route::post('/saveslider', [SliderController::class, 'saveslider']);
+Route::post('/updateslider/{id}', [SliderController::class, 'updateslider']);
+Route::get('/editslider/{id}', [SliderController::class, 'editslider']);
+Route::get('/deleteslider/{id}', [SliderController::class, 'deleteslider']);
+Route::get('/unactivateslider/{id}', [SliderController::class, 'unactivateslider']);
+Route::get('/activateslider/{id}', [SliderController::class, 'activateslider']);
+
+
 Route::get('/', [ClientController::class, 'home']);
 Route::get('/shop', [ClientController::class, 'shop']);
 Route::get('/cart', [ClientController::class, 'cart']);
