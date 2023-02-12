@@ -116,4 +116,9 @@ class ProductController extends Controller
         return redirect('/products')->with('success', 'Product has been unactivated successfully');
 
     }
+    public function view_product_by_category_name($category_name){
+        $products = Product::where('product_category',$category_name)->where('status',1)->get();
+        $categories = Category::all();
+        return view('client.shop',compact('products','categories'));
+    }
 }

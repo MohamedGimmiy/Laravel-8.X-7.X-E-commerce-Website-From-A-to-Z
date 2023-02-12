@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Slider;
 use Illuminate\Http\Request;
@@ -16,7 +17,9 @@ class ClientController extends Controller
     }
 
     public function shop(){
-        return view('client\shop');
+        $categories = Category::all();
+        $products = Product::all()->where('status',1);
+        return view('client\shop',compact('categories','products'));
     }
     public function cart(){
         return view('client\cart');

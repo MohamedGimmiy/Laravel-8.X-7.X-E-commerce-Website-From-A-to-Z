@@ -48,7 +48,7 @@ Route::get('/editproduct/{id}', [ProductController::class, 'editproduct']);
 Route::get('/deleteproduct/{id}', [ProductController::class, 'deleteproduct']);
 Route::get('/activate_product/{id}', [ProductController::class, 'activate_product']);
 Route::get('/unactivate_product/{id}', [ProductController::class, 'unactivate_product']);
-
+Route::get('/view_product_by_category_name/{category_name}',[ProductController::class, 'view_product_by_category_name']);
 
 
 Route::get('/addslider', [SliderController::class, 'addslider']);
