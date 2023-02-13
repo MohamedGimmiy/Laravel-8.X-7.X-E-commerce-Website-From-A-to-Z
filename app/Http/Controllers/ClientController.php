@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Product;
+use App\Cart;
 use App\Models\Slider;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ClientController extends Controller
 {
@@ -38,5 +40,16 @@ class ClientController extends Controller
 
     public function orders(){
         return view('admin\orders');
+    }
+
+    public function addtocart($id){
+        $product = Product::findOrFail($id);
+        $oldCart = Session::has('cart')? Session::get('cart'):null;
+        $cart = new Cart($oldCart);
+        $cart->add($product, $id);
+        Session::put('cart', $cart);
+
+        //dd(Session::get('cart'));
+        return back();
     }
 }

@@ -63,6 +63,8 @@ Route::get('/activateslider/{id}', [SliderController::class, 'activateslider']);
 
 Route::get('/', [ClientController::class, 'home']);
 Route::get('/shop', [ClientController::class, 'shop']);
+
+Route::get('/addtocart/{id}',[ClientController::class,'addtocart']);
 Route::get('/cart', [ClientController::class, 'cart']);
 Route::get('/checkout', [ClientController::class, 'checkout']);
 Route::get('/login', [ClientController::class, 'login']);
