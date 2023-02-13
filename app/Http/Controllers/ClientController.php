@@ -25,7 +25,7 @@ class ClientController extends Controller
     }
     public function cart(){
         if(!Session::has('cart')){
-            return redirect('/cart');
+            return view('client.cart');
         }
         $oldCart = Session::has('cart')? Session::get('cart'):null;
         $cart = new Cart($oldCart);
@@ -42,9 +42,35 @@ class ClientController extends Controller
         Session::put('cart', $cart);
 
         //dd(Session::get('cart'));
-        return back();
+        return redirect('/cart');
     }
 
+    public function update_qty(Request $request, $id){
+                //print('the product id is '.$request->id.' And the product qty is '.$request->quantity);
+                $oldCart = Session::has('cart')? Session::get('cart'):null;
+                $cart = new Cart($oldCart);
+                $cart->updateQty($id, $request->quantity);
+                Session::put('cart', $cart);
+
+                //dd(Session::get('cart'));
+                return back();
+    }
+
+    public function remove_from_cart($id){
+        $oldCart = Session::has('cart')? Session::get('cart'):null;
+        $cart = new Cart($oldCart);
+        $cart->removeItem($id);
+
+        if(count($cart->items) > 0){
+            Session::put('cart', $cart);
+        }
+        else{
+            Session::forget('cart');
+        }
+
+        //dd(Session::get('cart'));
+        return back();
+    }
     public function checkout(){
         return view('client\checkout');
     }
