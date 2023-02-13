@@ -6,7 +6,9 @@ use App\Cart;
 use App\Models\Slider;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class ClientController extends Controller
@@ -17,7 +19,46 @@ class ClientController extends Controller
         $products = Product::all()->where('status',1);
         return view('client\home',compact('sliders','products'));
     }
+    public function create_account(Request $request){
+        $validated = $request->validate([
+            'email' => 'required|unique:clients|email',
+            'password' => "required|min:4"
+        ]);
+        Client::create([
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password'])
+        ]);
 
+        return back()->with('success','You Account Created successfully!');
+
+    }
+
+
+    public function access_account(Request $request){
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => "required|min:4"
+        ]);
+
+        $client = Client::where('email', $validated['email'])->first();
+
+        if($client){
+            if(Hash::check($validated['password'], $client->password)){
+                session()->put('client', $client);
+                return redirect('/shop');
+            }else{
+                return back()->with('status', 'Wrong email or password!');
+            }
+        }else{
+            return back()->with('status', 'You do not have an account with this email!');
+        }
+
+    }
+
+    public function logout(){
+        session()->forget('client');
+        return redirect('/shop');
+    }
     public function shop(){
         $categories = Category::all();
         $products = Product::all()->where('status',1);
@@ -72,6 +113,9 @@ class ClientController extends Controller
         return back();
     }
     public function checkout(){
+        if(!Session::has('client')){
+            return view('client\login');
+        }
         return view('client\checkout');
     }
     public function login(){

@@ -32,7 +32,8 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('front-end/login/images/bg-01.jpg');">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" method="POST" action="{{url('/create_account')}}">
+                    @csrf
                     <a href="{{url('/')}}">
                         <span class="login100-form-logo">
                             <i class="zmdi zmdi-landscape"></i>
@@ -42,14 +43,22 @@
 					<span class="login100-form-title p-b-34 p-t-27">
 						Register
 					</span>
-
-					<div class="wrap-input100 validate-input" data-validate = "Enter username">
-						<input class="input100" type="text" name="username" placeholder="Username">
+                    @error('email')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
+                  @error('password')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+                @if ($message = Session::get('success'))
+                <div class="alert alert-success">{{ $message }}</div>
+                @endif
+					<div class="wrap-input100 validate-input" data-validate = "Enter email">
+						<input class="input100" type="email" name="email" placeholder="Email">
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" name="password" placeholder="Password">
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
