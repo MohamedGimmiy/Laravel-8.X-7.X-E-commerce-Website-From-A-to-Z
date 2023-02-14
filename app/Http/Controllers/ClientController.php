@@ -7,6 +7,7 @@ use App\Models\Slider;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -116,6 +117,9 @@ class ClientController extends Controller
         if(!Session::has('client')){
             return view('client\login');
         }
+        if(!Session::has('cart')){
+            return view('client\cart');
+        }
         return view('client\checkout');
     }
     public function login(){
@@ -126,8 +130,25 @@ class ClientController extends Controller
         return view('client\signup');
     }
 
+    public function postcheckout(Request $request){
+        $oldCart = Session::has('cart')? Session::get('cart'):null;
+        $cart = new Cart($oldCart);
+
+        Order::create([
+            'name' => $request->name,
+            'address' => $request->address,
+            'cart' => serialize($cart)
+        ]);
+        session()->forget('cart');
+        return redirect('/cart')->with('status','Your purchase has been successfully accomplished !!');
+    }
     public function orders(){
-        return view('admin\orders');
+        $orders = Order::all();
+        $orders->transform(function($order, $key){
+            $order->cart = unserialize($order->cart);
+            return $order;
+        });
+        return view('admin\orders',compact('orders'));
     }
 
 

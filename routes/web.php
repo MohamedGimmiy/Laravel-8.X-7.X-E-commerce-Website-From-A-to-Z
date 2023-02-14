@@ -77,3 +77,4 @@ Route::post('/create_account',[ClientController::class,'create_account']);
 Route::post('/access_account',[ClientController::class,'access_account']);
 
 Route::get('/orders', [ClientController::class, 'orders']);
+Route::post('/postcheckout', [ClientController::class, 'postcheckout']);
