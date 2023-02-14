@@ -26,7 +26,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">All Ordes</h3>
+                <h3 class="card-title">All Orders</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -52,7 +52,7 @@
                             @endforeach
                         </td>
                         <td>
-                            <a href="#" class="btn btn-primary"><i class="nav-icon fas fa-eye"></i></a>
+                            <a href="{{url('/viewpdforder/'.$order->id)}}" class="btn btn-primary"><i class="nav-icon fas fa-eye"></i></a>
                         </td>
                         </tr>
                     @endforeach
