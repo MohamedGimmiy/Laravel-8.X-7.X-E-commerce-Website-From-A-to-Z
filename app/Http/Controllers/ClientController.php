@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\Models\Order;
+use Stripe\Charge;
+use Stripe\Stripe;
+use App\Mail\SendMail;
+use App\Models\Client;
 use App\Models\Slider;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Client;
-use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class ClientController extends Controller
@@ -134,12 +138,47 @@ class ClientController extends Controller
         $oldCart = Session::has('cart')? Session::get('cart'):null;
         $cart = new Cart($oldCart);
 
+
+
+    Stripe::setApiKey('sk_test_51M71dhLlETGUHA9P8wDaFbHShxxmC7sQiRv2Ij0rIGZXurBDexukQu05LSvSb2FqRSlrCPXCAtx1i9lINRxXMVOq00G9I8zxla');
+
+    try{
+
+        $charge = Charge::create(array(
+            "amount" => $cart->totalPrice * 100,
+            "currency" => "usd",
+            "source" => $request->input('stripeToken'), // obtainded with Stripe.js
+            "description" => "Test Charge"
+        ));
+
+
+
+    } catch(\Exception $e){
+        Session::put('error', $e->getMessage());
+        return redirect('/checkout');
+    }
+
+        $buyer_id = time();
         Order::create([
             'name' => $request->name,
             'address' => $request->address,
-            'cart' => serialize($cart)
+            'cart' => serialize($cart),
+            'buyer_id'=> $buyer_id
         ]);
+
         session()->forget('cart');
+
+        $orders = Order::where('buyer_id',$buyer_id)->get();
+        $orders->transform(function($order, $key){
+            $order->cart = unserialize($order->cart);
+            return $order;
+        });
+
+        //send an email
+        $email = session()->get('client')->email;
+
+        Mail::to($email)->send(new SendMail($orders));
+
         return redirect('/cart')->with('status','Your purchase has been successfully accomplished !!');
     }
     public function orders(){
