@@ -43,7 +43,7 @@
         </li>
         @else
         <li class="nav-item active" >
-            <a href="{{url('/login')}}" class="nav-link">
+            <a href="{{url('/login1')}}" class="nav-link">
                 <span class="fa fa-user"></span>Login
             </a>
         </li>
